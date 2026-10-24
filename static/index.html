@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LG Smart TV Remote Control</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%22100%22%20height=%22100%22><text y=%22.9em%22 font-size=%2290%22>📺</text></svg>">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">LG</div>
+      <div class="brand-info">
+        <h1 id="tv-model-title">LG webOS Smart TV</h1>
+        <p id="tv-ip-display">Connecting to TV...</p>
+      </div>
+    </div>
+    
+    <div class="header-actions">
+      <div class="status-badge">
+        <span class="status-dot" id="status-indicator"></span>
+        <span id="status-text">Connecting</span>
+      </div>
+      <button class="icon-btn-header" id="btn-settings-open" title="TV Connection Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Pairing Alert Banner (Hidden by default) -->
+  <div class="alert-banner" id="pairing-banner" style="display: none;">
+    <div class="alert-content">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <div>
+        <strong>Pairing Prompt Active On TV!</strong>
+        <p>A popup is waiting on your LG TV screen. Please click <strong>"Accept"</strong> with your physical TV remote.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <main class="main-layout">
+    
+    <!-- Left Column: The Physical Remote Representation -->
+    <section class="remote-shell" aria-label="LG TV Remote Control">
+      
+      <!-- Top Row: Power & Wake-on-LAN -->
+      <div class="top-row">
+        <button class="wol-btn" id="btn-power-on" title="Turn TV ON (Wake-on-LAN)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+            <line x1="12" y1="2" x2="12" y2="12"></line>
+          </svg>
+          Power ON
+        </button>
+
+        <button class="power-btn" id="btn-power-off" title="Turn TV OFF">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+            <line x1="12" y1="2" x2="12" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick Inputs & Mute Row -->
+      <div class="quick-control-row">
+        <button class="remote-pill-btn" data-key="MENU" title="TV Settings Menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <span>Menu</span>
+        </button>
+
+        <button class="remote-pill-btn" id="btn-toggle-mute" title="Toggle Mute">
+          <svg id="mute-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <span id="mute-label">Mute</span>
+        </button>
+
+        <button class="remote-pill-btn" data-key="INFO" title="Current Info / Input">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>Info</span>
+        </button>
+      </div>
+
+      <!-- Tactile D-PAD -->
+      <div class="dpad-container">
+        <div class="dpad">
+          <button class="dpad-btn dpad-up" data-key="UP" title="Up Arrow (ArrowUp)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+          </button>
+          
+          <button class="dpad-btn dpad-down" data-key="DOWN" title="Down Arrow (ArrowDown)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          
+          <button class="dpad-btn dpad-left" data-key="LEFT" title="Left Arrow (ArrowLeft)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          
+          <button class="dpad-btn dpad-right" data-key="RIGHT" title="Right Arrow (ArrowRight)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+
+          <button class="dpad-center" data-key="ENTER" title="Select / OK (Enter)">
+            OK
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Row: Back, Home, Exit -->
+      <div class="nav-row">
+        <button class="nav-btn" data-key="BACK" title="Back (Backspace / Esc)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 14 4 9 9 4"></polyline>
+            <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+          </svg>
+          Back
+        </button>
+
+        <button class="nav-btn" data-key="HOME" title="Home Dashboard (H)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          Home
+        </button>
+
+        <button class="nav-btn" data-key="EXIT" title="Exit to TV">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          Exit
+        </button>
+      </div>
+
+      <!-- Dual Rockers: Volume & Channel -->
+      <div class="rockers-container">
+        <!-- Volume Rocker -->
+        <div class="rocker">
+          <button class="rocker-btn" id="btn-vol-up" title="Volume Up (+)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <div class="rocker-label">
+            <span>VOL</span>
+            <span class="volume-number" id="vol-display-num">15</span>
+          </div>
+          <button class="rocker-btn" id="btn-vol-down" title="Volume Down (-)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Channel Rocker -->
+        <div class="rocker">
+          <button class="rocker-btn" id="btn-ch-up" title="Channel Up">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+          </button>
+          <div class="rocker-label">
+            <span>CH</span>
+            <span>▲▼</span>
+          </div>
+          <button class="rocker-btn" id="btn-ch-down" title="Channel Down">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Volume Slider -->
+      <div class="volume-slider-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        </svg>
+        <input type="range" id="volume-slider" min="0" max="100" value="15" title="Volume Slider">
+        <span id="slider-vol-val" style="font-size: 13px; font-weight: 700; min-width: 28px;">15%</span>
+      </div>
+
+      <!-- Media Controls Bar -->
+      <div class="media-bar">
+        <button class="media-btn" id="btn-rewind" title="Rewind">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 19 2 12 11 5 11 19"></polygon>
+            <polygon points="22 19 13 12 22 5 22 19"></polygon>
+          </svg>
+        </button>
+
+        <button class="media-btn play-btn" id="btn-play-pause" title="Play / Pause (Space)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+        </button>
+
+        <button class="media-btn" id="btn-stop" title="Stop">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="6" y="6" width="12" height="12"></rect>
+          </svg>
+        </button>
+
+        <button class="media-btn" id="btn-fastforward" title="Fast Forward">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 19 22 12 13 5 13 19"></polygon>
+            <polygon points="2 19 11 12 2 5 2 19"></polygon>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Color Buttons Row -->
+      <div class="color-buttons-row">
+        <button class="color-btn red" data-key="RED" title="Red Button"></button>
+        <button class="color-btn green" data-key="GREEN" title="Green Button"></button>
+        <button class="color-btn yellow" data-key="YELLOW" title="Yellow Button"></button>
+        <button class="color-btn blue" data-key="BLUE" title="Blue Button"></button>
+      </div>
+
+    </section>
+
+    <!-- Right Column: Tabs (Apps, Touchpad, Numpad, Smart Tools) -->
+    <section class="right-panel">
+      <div class="panel-card">
+        
+        <!-- Navigation Tabs -->
+        <div class="tabs-nav">
+          <button class="tab-btn active" data-tab="tab-apps">Apps & Inputs</button>
+          <button class="tab-btn" data-tab="tab-touchpad">Magic Touchpad</button>
+          <button class="tab-btn" data-tab="tab-numpad">Number Pad</button>
+          <button class="tab-btn" data-tab="tab-tools">Smart Tools</button>
+        </div>
+
+        <!-- Tab 1: Apps & Inputs -->
+        <div class="tab-pane active" id="tab-apps">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="font-size: 14px; font-weight: 600; color: var(--text-secondary);">Installed TV Applications</h3>
+            <button class="wol-btn" id="btn-refresh-apps" style="font-size: 11px;">Refresh</button>
+          </div>
+          <div class="apps-grid" id="apps-container">
+            <p style="color: var(--text-muted); font-size: 13px;">Loading apps from TV...</p>
+          </div>
+        </div>
+
+        <!-- Tab 2: Magic Touchpad / Mouse Cursor -->
+        <div class="tab-pane" id="tab-touchpad">
+          <div style="margin-bottom: 10px;">
+            <h3 style="font-size: 14px; font-weight: 600; color: var(--text-secondary);">Magic Pointer Touchpad</h3>
+            <p style="font-size: 12px; color: var(--text-muted);">Move your mouse or finger across this area to control the TV's on-screen pointer.</p>
+          </div>
+          
+          <div class="touchpad-box" id="touchpad-area">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--accent-cyan); margin-bottom: 8px;">
+              <path d="M3 3l7 18 3-7 7-3L3 3z"></path>
+            </svg>
+            <p>Drag or swipe to steer pointer</p>
+          </div>
+
+          <div class="touchpad-click-row">
+            <button class="nav-btn" id="btn-touchpad-click" style="height: 48px; font-size: 14px;">
+              Click / Select
+            </button>
+            <button class="nav-btn" data-key="BACK" style="height: 48px; font-size: 14px;">
+              Back
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 3: Number Pad -->
+        <div class="tab-pane" id="tab-numpad">
+          <div style="margin-bottom: 14px; text-align: center;">
+            <h3 style="font-size: 14px; font-weight: 600; color: var(--text-secondary);">Direct Digit Input</h3>
+          </div>
+          <div class="numpad-grid">
+            <button class="num-btn" data-key="1">1</button>
+            <button class="num-btn" data-key="2">2</button>
+            <button class="num-btn" data-key="3">3</button>
+            <button class="num-btn" data-key="4">4</button>
+            <button class="num-btn" data-key="5">5</button>
+            <button class="num-btn" data-key="6">6</button>
+            <button class="num-btn" data-key="7">7</button>
+            <button class="num-btn" data-key="8">8</button>
+            <button class="num-btn" data-key="9">9</button>
+            <button class="num-btn" data-key="DASH" style="font-size: 14px;">-</button>
+            <button class="num-btn" data-key="0">0</button>
+            <button class="num-btn" data-key="ENTER" style="font-size: 14px;">OK</button>
+          </div>
+        </div>
+
+        <!-- Tab 4: Smart Tools -->
+        <div class="tab-pane" id="tab-tools">
+          <div class="tool-group">
+            <label for="toast-input">Display Message / Toast on TV Screen</label>
+            <div class="input-with-button">
+              <input type="text" id="toast-input" placeholder="e.g. Dinner is ready! 🍕" value="Hello from Mac!">
+              <button class="btn-primary" id="btn-send-toast">Send Toast</button>
+            </div>
+          </div>
+
+          <div class="tool-group">
+            <label for="browser-url-input">Launch Webpage on TV Browser</label>
+            <div class="input-with-button">
+              <input type="url" id="browser-url-input" placeholder="https://youtube.com" value="https://google.com">
+              <button class="btn-primary" id="btn-open-url">Open URL</button>
+            </div>
+          </div>
+
+          <div class="tool-group" style="padding-top: 14px; border-top: 1px solid var(--border-subtle);">
+            <label>TV Power & Connectivity</label>
+            <div style="display: flex; gap: 10px; margin-top: 6px;">
+              <button class="wol-btn" id="btn-wol-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                  <line x1="12" y1="2" x2="12" y2="12"></line>
+                </svg>
+                Wake-on-LAN (Power ON)
+              </button>
+              <button class="nav-btn" id="btn-power-off-secondary" style="border-radius: var(--radius-full); padding: 0 16px;">
+                Power OFF
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Keyboard Shortcuts Footer -->
+  <footer class="keyboard-hints">
+    <span>Keyboard shortcuts:</span>
+    <span><span class="key-badge">▲ ▼ ◄ ►</span> D-Pad</span>
+    <span><span class="key-badge">Enter</span> OK</span>
+    <span><span class="key-badge">Esc / ⌫</span> Back</span>
+    <span><span class="key-badge">Space</span> Play/Pause</span>
+    <span><span class="key-badge">+ / -</span> Volume</span>
+    <span><span class="key-badge">M</span> Mute</span>
+    <span><span class="key-badge">H</span> Home</span>
+  </footer>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>TV Connection Settings</h3>
+        <button class="close-btn" id="btn-settings-close">&times;</button>
+      </div>
+
+      <div class="tool-group">
+        <label for="settings-ip">TV IP Address</label>
+        <input type="text" id="settings-ip" value="10.164.100.142" style="width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 6px; color: white;">
+      </div>
+
+      <div class="tool-group">
+        <label for="settings-mac">TV MAC Address (for Wake-on-LAN)</label>
+        <input type="text" id="settings-mac" value="84:a3:29:83:dd:de" style="width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); padding: 8px 12px; border-radius: 6px; color: white;">
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 18px;">
+        <button class="wol-btn" id="btn-discover-tv">Auto-Detect TV</button>
+        <button class="btn-primary" id="btn-save-settings">Save & Reconnect</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
