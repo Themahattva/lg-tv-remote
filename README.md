@@ -1,16 +1,21 @@
-# 📺 LG webOS Smart TV Web Remote
+# 📺 LG webOS Smart TV Web Remote & Chrome Extension
 
-A modern, high-performance web-based remote control application for LG Smart TVs running webOS (including webOS 24+). Built with Python (FastAPI + `bscpylgtv` engine) and a sleek, glassmorphic responsive HTML5/CSS3 frontend.
+A modern, high-performance remote control application for LG Smart TVs running webOS (including webOS 24+). Built with Python (FastAPI + `bscpylgtv` engine), a sleek glassmorphic web UI, and a dedicated **Google Chrome Extension (Manifest V3)** with popup, side panel, and web link casting!
 
 ![LG TV Remote Banner](https://img.shields.io/badge/LG_webOS-24+-blue?logo=lg&logoColor=white)
+![Chrome Extension](https://img.shields.io/badge/Chrome_Extension-Manifest_V3-yellow?logo=googlechrome&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?logo=fastapi&logoColor=white)
-![WebSocket](https://img.shields.io/badge/WebSocket-Realtime-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
 ## ✨ Features
 
+- **🌐 Google Chrome Extension (Manifest V3):**
+  - **Toolbar Popup:** Access the entire tactile remote with one click without leaving your current browser tab.
+  - **Chrome Side Panel:** Dock the remote on the right/left of Chrome to control the TV while browsing or working.
+  - **Cast Current Tab / Links:** Instantly send any web page, article, or video URL directly into the TV's web browser.
+  - **Context Menu:** Right-click any link or web page to select *"Cast link / page to LG TV 📺"*.
 - **Tactile D-Pad Navigation:** Circular directional controller (Up, Down, Left, Right, OK / Enter) with instant hardware feedback.
 - **Audio & Volume Control:** Volume Up / Down rockers, real-time volume slider (0–100%), and one-click Mute toggle.
 - **Channel & Media Playback:** Channel navigation plus Play, Pause, Stop, Rewind, and Fast-Forward controls.
@@ -46,13 +51,23 @@ cd lg-tv-remote
 python3 -m pip install -r requirements.txt
 ```
 
-### 3. Running the Server
+### 3. Running the Companion Server
 ```bash
 python3 server.py
 ```
 Open **[http://localhost:8765](http://localhost:8765)** in your web browser.
 
-*(You can also access the remote from your phone or tablet on the same Wi-Fi by visiting `http://<your-laptop-ip>:8765`!)*
+---
+
+## 🧩 Installing the Chrome Extension
+
+1. Open **Google Chrome** and go to `chrome://extensions`.
+2. Turn on **Developer mode** (toggle switch in the top-right corner).
+3. Click **Load unpacked** (top-left button).
+4. Select the `extension/` folder located in `/Users/mahattava/Developer/lg-tv-remote/extension`.
+5. Pin the **LG TV Remote** icon to your Chrome toolbar!
+
+Now you can control your TV, adjust volume, launch apps, and cast tabs directly from Chrome at any time!
 
 ---
 
@@ -68,16 +83,7 @@ The app auto-detects LG TVs using UPnP/SSDP. You can also specify your TV's IP a
 }
 ```
 
-On first run, an on-screen pairing prompt will appear on your TV. Click **Accept** on your TV remote once, and the pairing key is saved permanently.
-
----
-
-## 🛠️ Tech Stack
-
-- **Backend:** Python 3, FastAPI, Uvicorn, WebSockets, `bscpylgtv` (SSL/WSS signed JWT authentication)
-- **Frontend:** Vanilla HTML5, CSS3 Glassmorphism, Vanilla JS with WebSocket real-time state synchronization
-
 ---
 
 ## 📄 License
-MIT License. Feel free to use and customize for your smart home setup!
+MIT License.
